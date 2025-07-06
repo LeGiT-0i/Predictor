@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Horse Race Predictor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            background: #fff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        select {
+            margin: 5px;
+            padding: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #eee;
+        }
+        .winner-box {
+            margin-top: 20px;
+            padding: 15px;
+            border: 2px solid #28a745;
+            border-radius: 5px;
+            background-color: #e6ffee;
+        }
+    </style>
+</head>
+<body>
+    <h1>🏇 Horse Race Predictor</h1>
+
+    <form method="POST">
+        <label>Track Condition:</label>
+        <select name="track_condition">
+            <option value="Dry" {% if form_data.track_condition == 'Dry' %}selected{% endif %}>Dry</option>
+            <option value="Wet" {% if form_data.track_condition == 'Wet' %}selected{% endif %}>Wet</option>
+            <option value="Muddy" {% if form_data.track_condition == 'Muddy' %}selected{% endif %}>Muddy</option>
+        </select>
+
+        <label>Weather:</label>
+        <select name="weather">
+            <option value="Sunny" {% if form_data.weather == 'Sunny' %}selected{% endif %}>Sunny</option>
+            <option value="Cloudy" {% if form_data.weather == 'Cloudy' %}selected{% endif %}>Cloudy</option>
+            <option value="Rainy" {% if form_data.weather == 'Rainy' %}selected{% endif %}>Rainy</option>
+        </select>
+
+        <label>Race Length:</label>
+        <select name="race_length">
+            <option value="Short" {% if form_data.race_length == 'Short' %}selected{% endif %}>Short</option>
+            <option value="Medium" {% if form_data.race_length == 'Medium' %}selected{% endif %}>Medium</option>
+            <option value="Long" {% if form_data.race_length == 'Long' %}selected{% endif %}>Long</option>
+        </select>
+
+        <label>Surface:</label>
+        <select name="surface">
+            <option value="Turf" {% if form_data.surface == 'Turf' %}selected{% endif %}>Turf</option>
+            <option value="Dirt" {% if form_data.surface == 'Dirt' %}selected{% endif %}>Dirt</option>
+            <option value="Synthetic" {% if form_data.surface == 'Synthetic' %}selected{% endif %}>Synthetic</option>
+        </select>
+
+        <label>Jockey Experience:</label>
+        <select name="jockey_experience">
+            <option value="Beginner" {% if form_data.jockey_experience == 'Beginner' %}selected{% endif %}>Beginner</option>
+            <option value="Intermediate" {% if form_data.jockey_experience == 'Intermediate' %}selected{% endif %}>Intermediate</option>
+            <option value="Expert" {% if form_data.jockey_experience == 'Expert' %}selected{% endif %}>Expert</option>
+        </select>
+
+        <br><br>
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if horses %}
+        <h2>🏁 Horse Predictions</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Speed</th>
+                    <th>Stamina</th>
+                    <th>Jockey Rating</th>
+                    <th>Predicted Class</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for horse in horses %}
+                <tr>
+                    <td>{{ horse.name }}</td>
+                    <td>{{ horse.speed }}</td>
+                    <td>{{ horse.stamina }}</td>
+                    <td>{{ horse.jockey_rating }}</td>
+                    <td>{{ horse.predicted_class }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    {% if winner %}
+        <div class="winner-box">
+            <h2>🏆 Predicted Winner: {{ winner.name }}</h2>
+            <ul>
+                <li><strong>Speed:</strong> {{ winner.speed }}</li>
+                <li><strong>Stamina:</strong> {{ winner.stamina }}</li>
+                <li><strong>Jockey Rating:</strong> {{ winner.jockey_rating }}</li>
+                <li><strong>Predicted Class:</strong> {{ winner.predicted_class }}</li>
+            </ul>
+        </div>
+    {% endif %}
+</body>
+</html>
